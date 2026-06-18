@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A Java HTTP server and local network diagnostics dashboard.">
+    <title>Java Network Diagnostics Dashboard</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/app.js" defer></script>
+</head>
+<body>
+<header class="page-header">
+    <div>
+        <p class="eyebrow">Network Programming Project</p>
+        <h1>Java HTTP Server &amp; Network Diagnostics</h1>
+        <p class="intro">Inspect this server, resolve a hostname, check one TCP port, or send an echo message.</p>
+    </div>
+    <div id="status-badge" class="status-badge" aria-live="polite">Checking server…</div>
+</header>
+
+<main>
+    <section class="status-grid" aria-labelledby="status-heading">
+        <h2 id="status-heading" class="section-title">Server status</h2>
+        <article class="metric">
+            <span>Current time</span>
+            <strong id="server-time">—</strong>
+        </article>
+        <article class="metric">
+            <span>Uptime</span>
+            <strong id="uptime">—</strong>
+        </article>
+        <article class="metric">
+            <span>Requests</span>
+            <strong id="request-count">—</strong>
+        </article>
+        <article class="metric">
+            <span>Java version</span>
+            <strong id="java-version">—</strong>
+        </article>
+    </section>
+
+    <section class="tool-grid" aria-label="Network diagnostic tools">
+        <article class="panel">
+            <h2>DNS lookup</h2>
+            <p>Resolve a hostname to its IPv4 or IPv6 addresses.</p>
+            <form id="dns-form">
+                <label for="dns-host">Hostname</label>
+                <input id="dns-host" name="host" type="text" value="localhost" maxlength="253"
+                       autocomplete="off" required>
+                <button type="submit">Resolve hostname</button>
+                <p id="dns-loading" class="loading" hidden>Resolving…</p>
+                <p id="dns-error" class="form-error" role="alert"></p>
+            </form>
+        </article>
+
+        <article class="panel">
+            <h2>TCP port check</h2>
+            <p>Try one TCP connection to one host and port.</p>
+            <form id="port-form">
+                <label for="port-host">Hostname</label>
+                <input id="port-host" name="host" type="text" value="localhost" maxlength="253"
+                       autocomplete="off" required>
+                <label for="port-number">Port</label>
+                <input id="port-number" name="port" type="number" value="8080" min="1" max="65535" required>
+                <button type="submit">Check port</button>
+                <p id="port-loading" class="loading" hidden>Connecting…</p>
+                <p id="port-error" class="form-error" role="alert"></p>
+            </form>
+        </article>
+
+        <article class="panel">
+            <h2>Echo message</h2>
+            <p>Send UTF-8 text to the server and receive it back.</p>
+            <form id="echo-form">
+                <label for="echo-message">Message</label>
+                <textarea id="echo-message" name="message" rows="4" maxlength="3000"
+                          placeholder="Hello from the dashboard" required></textarea>
+                <button type="submit">Send message</button>
+                <p id="echo-loading" class="loading" hidden>Sending…</p>
+                <p id="echo-error" class="form-error" role="alert"></p>
+            </form>
+        </article>
+    </section>
+
+    <section class="history-section" aria-labelledby="history-heading">
+        <div class="section-heading">
+            <div>
+                <h2 id="history-heading">Results history</h2>
+                <p>Results remain in this browser tab only.</p>
+            </div>
+            <button id="clear-history" class="secondary-button" type="button">Clear history</button>
+        </div>
+        <ol id="history-list" class="history-list" aria-live="polite"></ol>
+        <p id="empty-history" class="empty-state">No diagnostic results yet.</p>
+    </section>
+</main>
+
+<footer>
+    <p>Use the TCP check only on systems you own or have permission to test.</p>
+</footer>
+</body>
+</html>
